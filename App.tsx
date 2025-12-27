@@ -21,7 +21,8 @@ import {
   Users,
   BookOpen,
   Calendar,
-  X
+  X,
+  ArrowDown
 } from 'lucide-react';
 
 // --- Constants ---
@@ -460,6 +461,35 @@ const CheckoutSection: React.FC = () => {
       observer.observe(element);
     }
 
+    // Tentar rolar o iframe para a seção de pagamento após carregar
+    const iframe = document.querySelector('#checkout-section iframe') as HTMLIFrameElement;
+    if (iframe) {
+      const handleLoad = () => {
+        try {
+          // Tentar acessar o conteúdo do iframe (pode falhar por CORS)
+          const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
+          if (iframeDoc) {
+            // Procurar por elementos relacionados ao formulário de pagamento
+            const paymentSection = iframeDoc.querySelector('[class*="payment"], [class*="checkout"], form');
+            if (paymentSection) {
+              paymentSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }
+        } catch (e) {
+          // CORS pode bloquear o acesso, então usamos o transform CSS
+          console.log('Não foi possível acessar o conteúdo do iframe devido a políticas de segurança');
+        }
+      };
+      
+      iframe.addEventListener('load', handleLoad);
+      return () => {
+        if (element) {
+          observer.unobserve(element);
+        }
+        iframe.removeEventListener('load', handleLoad);
+      };
+    }
+
     return () => {
       if (element) {
         observer.unobserve(element);
@@ -470,13 +500,35 @@ const CheckoutSection: React.FC = () => {
   return (
     <section id="checkout-section" className="py-20 md:py-24 bg-black">
       <div className="container mx-auto px-4 text-center">
-        <h2 className="font-tech font-black text-xl md:text-3xl text-white mb-10 uppercase tracking-widest">PAGAMENTO SEGURO <span className="text-green-500">VIA HOTMART</span></h2>
-        <div className="max-w-4xl mx-auto rounded-2xl md:rounded-[3rem] border border-white/5 overflow-hidden bg-[#0a0f12] shadow-2xl">
-          <iframe 
-            src={HOTMART_LINK} 
-            className="w-full min-h-[800px] border-0"
-            title="Checkout Hotmart"
-          ></iframe>
+        <div className="flex items-center justify-center gap-4 mb-10">
+          <ArrowDown className="h-6 w-6 md:h-8 md:w-8 text-green-500 animate-bounce" />
+          <h2 className="font-tech font-black text-xl md:text-3xl text-white uppercase tracking-widest">
+            PAGAMENTO SEGURO <span className="text-green-500">VIA HOTMART</span>
+          </h2>
+          <ArrowDown className="h-6 w-6 md:h-8 md:w-8 text-green-500 animate-bounce" />
+        </div>
+        <div className="max-w-4xl mx-auto rounded-2xl md:rounded-[3rem] border border-white/5 overflow-hidden bg-[#0a0f12] shadow-2xl relative" style={{ height: '900px', overflow: 'hidden' }}>
+          <div 
+            className="absolute inset-0"
+            style={{ 
+              overflow: 'hidden',
+              height: '900px'
+            }}
+          >
+            <iframe 
+              src={HOTMART_LINK} 
+              className="w-full border-0"
+              style={{ 
+                height: '1400px',
+                width: '100%',
+                transform: 'translateY(-200px)',
+                pointerEvents: 'auto',
+                border: 'none',
+                display: 'block'
+              }}
+              title="Checkout Hotmart"
+            ></iframe>
+          </div>
         </div>
       </div>
     </section>
@@ -593,17 +645,44 @@ const Footer: React.FC = () => {
 
 const FloatingCTAButton: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [isInCheckout, setIsInCheckout] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       const scrollPos = window.scrollY;
-      setIsVisible(scrollPos > 400);
+      const shouldShow = scrollPos > 400;
+      setIsVisible(shouldShow);
+
+      // Verificar se está na seção de checkout
+      const checkoutSection = document.getElementById('checkout-section');
+      if (checkoutSection) {
+        const checkoutTop = checkoutSection.offsetTop;
+        const checkoutBottom = checkoutTop + checkoutSection.offsetHeight;
+        const viewportTop = scrollPos;
+        const viewportBottom = scrollPos + window.innerHeight;
+        
+        // Ocultar se a viewport estiver sobrepondo a seção de checkout
+        // Considerando que o botão está no bottom da tela
+        const buttonBottom = viewportBottom - 24; // 24px é o bottom-6 (1.5rem)
+        const isOverCheckout = buttonBottom >= checkoutTop && viewportTop <= checkoutBottom;
+        setIsInCheckout(isOverCheckout);
+      }
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    // Verificação inicial
+    handleScroll();
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll, { passive: true });
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
   }, []);
 
-  if (!isVisible) return null;
+  // Não mostrar se não estiver visível ou se estiver na seção de checkout
+  if (!isVisible || isInCheckout) return null;
 
   return (
     <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] w-full max-w-[90%] md:max-w-md pointer-events-none transition-all duration-500 animate-in fade-in slide-in-from-bottom-10">
