@@ -16,47 +16,8 @@ body {
   min-height: 100vh;
 }
 
-/* FORÇAR AZUL CELESTE EM TODAS AS CLASSES BLUE DO TAILWIND */
-.text-blue-500, [class*="text-blue-500"] { color: #0ea5e9 !important; }
-.text-blue-600, [class*="text-blue-600"] { color: #0284c7 !important; }
-.text-blue-400, [class*="text-blue-400"] { color: #38bdf8 !important; }
-.text-blue-800, [class*="text-blue-800"] { color: #075985 !important; }
-
-.bg-blue-500, [class*="bg-blue-500"] { background-color: #0ea5e9 !important; }
-.bg-blue-600, [class*="bg-blue-600"] { background-color: #0284c7 !important; }
-.bg-blue-400, [class*="bg-blue-400"] { background-color: #38bdf8 !important; }
-.bg-blue-800, [class*="bg-blue-800"] { background-color: #075985 !important; }
-
-.border-blue-500, [class*="border-blue-500"] { border-color: #0ea5e9 !important; }
-.border-blue-600, [class*="border-blue-600"] { border-color: #0284c7 !important; }
-.border-blue-400, [class*="border-blue-400"] { border-color: #38bdf8 !important; }
-.border-blue-800, [class*="border-blue-800"] { border-color: #075985 !important; }
-
-.hover\:bg-blue-500:hover, [class*="hover:bg-blue-500"]:hover { background-color: #0ea5e9 !important; }
-.hover\:bg-blue-600:hover, [class*="hover:bg-blue-600"]:hover { background-color: #0284c7 !important; }
-.hover\:text-blue-500:hover, [class*="hover:text-blue-500"]:hover { color: #0ea5e9 !important; }
-
-/* Opacidade - usando seletores de atributo */
-[class*="bg-blue-500/10"] { background-color: rgba(14, 165, 233, 0.1) !important; }
-[class*="bg-blue-500/20"] { background-color: rgba(14, 165, 233, 0.2) !important; }
-[class*="bg-blue-600/20"] { background-color: rgba(2, 132, 199, 0.2) !important; }
-[class*="bg-blue-800/10"] { background-color: rgba(7, 89, 133, 0.1) !important; }
-[class*="border-blue-500/10"] { border-color: rgba(14, 165, 233, 0.1) !important; }
-[class*="border-blue-500/20"] { border-color: rgba(14, 165, 233, 0.2) !important; }
-[class*="border-blue-500/30"] { border-color: rgba(14, 165, 233, 0.3) !important; }
-[class*="border-blue-500/40"] { border-color: rgba(14, 165, 233, 0.4) !important; }
-[class*="text-blue-500/60"] { color: rgba(14, 165, 233, 0.6) !important; }
-
 /* Garantir que iframes e vídeos NÃO tenham filtros aplicados */
 iframe, video, embed, object {
   filter: none !important;
   -webkit-filter: none !important;
-}
-
-/* Substituir qualquer verde restante */
-.text-green-500, .text-green-600, .bg-green-500, .bg-green-600,
-.border-green-500, .border-green-600, [class*="green-500"], [class*="green-600"] {
-  color: #0ea5e9 !important;
-  background-color: #0ea5e9 !important;
-  border-color: #0ea5e9 !important;
 }

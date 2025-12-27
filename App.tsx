@@ -47,26 +47,11 @@ const scrollToCheckout = () => {
   }
 };
 
-const goToHotmartCheckout = () => {
-  // Rastrear clique no botão de checkout direto
-  if (typeof window !== 'undefined' && (window as any).fbq) {
-    (window as any).fbq('track', 'InitiateCheckout', {
-      content_name: 'Curso Manutenção de Celular',
-      content_category: 'Education'
-    });
-  }
-  
-  // Redirecionar para o checkout da Hotmart
-  if (typeof window !== 'undefined') {
-    window.open(HOTMART_LINK, '_blank');
-  }
-};
-
 // --- Components ---
 
 const Header: React.FC = () => {
   return (
-    <header className="fixed top-0 left-0 w-full bg-[#05080a]/95 backdrop-blur-xl z-50 border-b border-blue-500/10 transition-all duration-300">
+    <header className="fixed top-0 left-0 w-full bg-black/95 backdrop-blur-xl z-50 border-b border-green-500/10 transition-all duration-300">
       <div className="container mx-auto px-3 sm:px-4 py-2.5 sm:py-3 md:py-4 flex items-center justify-between">
         <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3 min-w-0 flex-1">
           <div className="p-1 sm:p-1.5 bg-white/5 rounded-lg backdrop-blur-sm border border-white/10 flex-shrink-0">
@@ -78,14 +63,14 @@ const Header: React.FC = () => {
           </div>
           <div className="flex flex-col min-w-0">
             <span className="font-tech font-bold text-[7px] xs:text-[8px] sm:text-[10px] md:text-sm text-white tracking-widest leading-tight sm:leading-none uppercase truncate">
-              INSTITUTO PROFISSIONALIZE <span className="text-blue-500 block sm:inline sm:ml-1">MAXXIMA</span>
+              INSTITUTO PROFISSIONALIZE <span className="text-green-500 block sm:inline sm:ml-1">MAXXIMA</span>
             </span>
           </div>
         </div>
         
         <button 
           onClick={scrollToCheckout}
-          className="bg-blue-600 hover:bg-blue-500 text-white font-black py-1.5 px-2 sm:py-2 sm:px-4 md:py-3 md:px-8 rounded-full text-[7px] sm:text-[9px] md:text-xs transition-all active:scale-95 uppercase tracking-widest shadow-lg animate-neon-button flex-shrink-0 ml-2"
+          className="bg-green-600 hover:bg-green-500 text-white font-black py-1.5 px-2 sm:py-2 sm:px-4 md:py-3 md:px-8 rounded-full text-[7px] sm:text-[9px] md:text-xs transition-all active:scale-95 uppercase tracking-widest shadow-lg animate-neon-button flex-shrink-0 ml-2"
         >
           QUERO BOLSA
         </button>
@@ -121,13 +106,13 @@ const StudentCounter: React.FC = () => {
 
   return (
     <div className="mt-6 sm:mt-8 md:mt-10 mb-6 sm:mb-8">
-      <div className="inline-flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-blue-600/20 to-blue-500/20 border border-blue-500/30 px-4 sm:px-6 md:px-8 py-3 sm:py-4 md:py-5 rounded-full backdrop-blur-sm">
-        <Users className="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 text-blue-500 flex-shrink-0" />
+      <div className="inline-flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-green-600/20 to-green-500/20 border border-green-500/30 px-4 sm:px-6 md:px-8 py-3 sm:py-4 md:py-5 rounded-full backdrop-blur-sm">
+        <Users className="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 text-green-500 flex-shrink-0" />
         <div className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2">
           <span className="text-white font-tech font-bold text-xs sm:text-sm md:text-base uppercase tracking-widest">
             JÁ SÃO MAIS DE
           </span>
-          <span className="text-blue-500 font-tech font-black text-xl sm:text-2xl md:text-3xl lg:text-4xl">
+          <span className="text-green-500 font-tech font-black text-xl sm:text-2xl md:text-3xl lg:text-4xl">
             {count.toLocaleString('pt-BR')}+
           </span>
           <span className="text-white font-tech font-bold text-xs sm:text-sm md:text-base uppercase tracking-widest">
@@ -140,86 +125,29 @@ const StudentCounter: React.FC = () => {
 };
 
 const Hero: React.FC = () => {
-  const videoRef = React.useRef<HTMLDivElement>(null);
-  const playerRef = React.useRef<any>(null);
-
-  useEffect(() => {
-    // Função para inicializar o player do YouTube
-    const initYouTubePlayer = () => {
-      if (typeof window !== 'undefined' && (window as any).YT && (window as any).YT.Player && videoRef.current) {
-        playerRef.current = new (window as any).YT.Player(videoRef.current, {
-          videoId: 'rLnKNlCch9A',
-          playerVars: {
-            autoplay: 1,
-            mute: 1,
-            loop: 1,
-            playlist: 'rLnKNlCch9A',
-            playsinline: 1,
-            modestbranding: 1,
-            rel: 0,
-            showinfo: 0,
-            controls: 1,
-            enablejsapi: 1
-          },
-          events: {
-            onReady: (event: any) => {
-              // Força o play quando o player estiver pronto
-              event.target.playVideo();
-            },
-            onStateChange: (event: any) => {
-              // Se o vídeo parar, força a continuar
-              if (event.data === (window as any).YT.PlayerState.ENDED) {
-                event.target.playVideo();
-              }
-            }
-          }
-        });
-      }
-    };
-
-    // Se a API do YouTube já estiver carregada
-    if (typeof window !== 'undefined' && (window as any).YT && (window as any).YT.Player) {
-      initYouTubePlayer();
-    } else {
-      // Aguarda a API do YouTube carregar
-      (window as any).onYouTubeIframeAPIReady = () => {
-        initYouTubePlayer();
-      };
-    }
-
-    return () => {
-      if (playerRef.current) {
-        try {
-          playerRef.current.destroy();
-        } catch (e) {
-          // Ignora erros ao destruir
-        }
-      }
-    };
-  }, []);
-
   return (
-    <section className="pt-20 sm:pt-24 md:pt-28 lg:pt-48 pb-10 sm:pb-12 md:pb-24 bg-black relative overflow-hidden">
+    <section className="pt-20 sm:pt-24 md:pt-28 lg:pt-48 pb-10 sm:pb-12 md:pb-24 relative overflow-hidden">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full pointer-events-none">
-        {/* Removidos círculos azuis de fundo */}
+        <div className="absolute top-20 left-10 w-64 h-64 md:w-96 md:h-96 bg-green-500/10 rounded-full blur-[120px] md:blur-[180px]"></div>
+        <div className="absolute bottom-20 right-10 w-64 h-64 md:w-96 md:h-96 bg-green-800/10 rounded-full blur-[120px] md:blur-[180px]"></div>
       </div>
       
       <div className="container mx-auto px-4 text-center relative z-10">
-        <div className="inline-flex items-center gap-1 sm:gap-1.5 md:gap-2 bg-blue-500 text-black font-tech font-black px-2.5 py-1.5 sm:px-3 sm:py-2 md:px-6 md:py-2.5 lg:px-8 lg:py-3 rounded-full text-[7px] sm:text-[8px] md:text-[10px] lg:text-sm uppercase tracking-widest mb-6 sm:mb-8 animate-neon shadow-[0_0_30px_rgba(59,130,246,0.6)] transform -rotate-1 hover:rotate-0 transition-transform cursor-default max-w-[95%] sm:max-w-none">
+        <div className="inline-flex items-center gap-1 sm:gap-1.5 md:gap-2 bg-green-500 text-black font-tech font-black px-2.5 py-1.5 sm:px-3 sm:py-2 md:px-6 md:py-2.5 lg:px-8 lg:py-3 rounded-full text-[7px] sm:text-[8px] md:text-[10px] lg:text-sm uppercase tracking-widest mb-6 sm:mb-8 animate-neon shadow-[0_0_30px_rgba(34,197,94,0.6)] transform -rotate-1 hover:rotate-0 transition-transform cursor-default max-w-[95%] sm:max-w-none">
           <Zap className="h-2.5 w-2.5 sm:h-3 sm:w-3 md:h-4 md:w-4 fill-black flex-shrink-0" />
           <span className="text-center leading-tight">
             <span className="block sm:inline">BOLSA DE ESTUDOS:</span>
             <span className="block sm:inline sm:ml-1">DE <span className="line-through opacity-60">R$ 297,00</span></span>
-            <span className="block sm:inline sm:ml-1">POR APENAS R$ <span className="text-white text-[9px] sm:text-[10px] md:text-[12px] lg:text-base font-black">97</span>,00</span>
+            <span className="block sm:inline sm:ml-1">POR APENAS R$ <span className="text-white text-[14px] sm:text-[18px] md:text-[22px] lg:text-2xl font-black">97</span>,00</span>
           </span>
         </div>
 
         <h1 className="font-tech font-black leading-[1.1] uppercase tracking-tighter mb-6 md:mb-8">
-          <span className="block text-blue-500 text-xs md:text-xl lg:text-2xl mb-4 tracking-[0.3em] font-bold">
+          <span className="block text-green-500 text-xs md:text-xl lg:text-2xl mb-4 tracking-[0.3em] font-bold">
             CURSO PROFISSIONALIZANTE EAD + CERTIFICADO
           </span>
           <span className="block text-white text-4xl md:text-7xl lg:text-8xl xl:text-9xl">
-            MANUTENÇÃO DE <span className="text-blue-500">CELULARES</span>
+            MANUTENÇÃO DE <span className="text-green-500">CELULARES</span>
           </span>
         </h1>
         
@@ -227,21 +155,23 @@ const Hero: React.FC = () => {
           Domine o mercado mais lucrativo do país. Aprenda do <span className="text-white font-bold">zero ao avançado</span> com o método 100% online do Instituto Professionalize Maxxima.
         </p>
         
-        <div className="max-w-4xl mx-auto mb-10 rounded-2xl md:rounded-[2rem] overflow-hidden shadow-2xl border-2 border-blue-500/20 bg-black aspect-video relative">
-          {/* Player do YouTube usando a API */}
-          <div ref={videoRef} className="absolute inset-0 w-full h-full"></div>
+        <div className="max-w-4xl mx-auto mb-10 rounded-2xl md:rounded-[2rem] overflow-hidden shadow-2xl border-2 border-green-500/20 bg-black aspect-video relative">
+          {/* Utilizando youtube-nocookie para evitar restrições de privacidade e Erro 153 */}
+          <iframe 
+            className="absolute inset-0 w-full h-full"
+            src="https://www.youtube-nocookie.com/embed/rLnKNlCch9A?modestbranding=1&rel=0&showinfo=0"
+            title="Vídeo de Apresentação"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+          ></iframe>
           
           <div className="absolute top-4 right-4 md:top-6 md:right-6 w-12 h-12 md:w-20 md:h-20 pointer-events-none z-10 opacity-60">
             <img src="https://curso-manutencaodecelular.online/wp-content/uploads/2024/10/INFORMATICA-COMPLETA-1.png" alt="Selo Qualidade" className="w-full h-full object-contain" />
           </div>
         </div>
         
-        <button 
-          onClick={scrollToCheckout}
-          className="mt-6 sm:mt-8 md:mt-10 mb-6 sm:mb-8 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 text-white font-tech font-black text-sm sm:text-base md:text-lg lg:text-xl px-6 sm:px-8 md:px-12 py-3 sm:py-4 md:py-5 rounded-full transition-all active:scale-95 uppercase tracking-widest shadow-2xl animate-blink-button relative overflow-hidden"
-        >
-          <span className="relative z-10">QUERO MINHA LIBERDADE FINANCEIRA AGORA</span>
-        </button>
+        <StudentCounter />
       </div>
     </section>
   );
@@ -249,24 +179,24 @@ const Hero: React.FC = () => {
 
 const FeatureHighlights: React.FC = () => {
   return (
-    <section className="py-12 md:py-16 bg-white border-y border-white/5">
+    <section className="py-12 md:py-16 bg-black/50 border-y border-white/5">
       <div className="container mx-auto px-4 max-w-6xl">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8 items-center text-center">
           <div className="flex flex-col items-center gap-2 sm:gap-3 group">
-            <Lock className="h-6 w-6 sm:h-8 sm:w-8 text-black transition-colors" />
-            <span className="text-black font-tech text-[9px] sm:text-[10px] md:text-xs uppercase tracking-widest font-black leading-tight">LIBERAÇÃO<br />IMEDIATA</span>
+            <Lock className="h-6 w-6 sm:h-8 sm:w-8 text-green-500/60 group-hover:text-green-500 transition-colors" />
+            <span className="text-gray-400 font-tech text-[9px] sm:text-[10px] md:text-xs uppercase tracking-widest font-bold leading-tight">LIBERAÇÃO<br />IMEDIATA</span>
           </div>
           <div className="flex flex-col items-center gap-2 sm:gap-3 group">
-            <MonitorPlay className="h-6 w-6 sm:h-8 sm:w-8 text-black transition-colors" />
-            <span className="text-black font-tech text-[9px] sm:text-[10px] md:text-xs uppercase tracking-widest font-black leading-tight">VÍDEO<br />AULAS + APOSTILA</span>
+            <MonitorPlay className="h-6 w-6 sm:h-8 sm:w-8 text-green-500/60 group-hover:text-green-500 transition-colors" />
+            <span className="text-gray-400 font-tech text-[9px] sm:text-[10px] md:text-xs uppercase tracking-widest font-bold leading-tight">VÍDEO<br />AULAS + APOSTILA</span>
           </div>
           <div className="flex flex-col items-center gap-2 sm:gap-3 group">
-            <BadgeCheck className="h-6 w-6 sm:h-8 sm:w-8 text-black transition-colors" />
-            <span className="text-black font-tech text-[9px] sm:text-[10px] md:text-xs uppercase tracking-widest font-black leading-tight">CERTIFICADO<br />AUTORIZADO MEC</span>
+            <BadgeCheck className="h-6 w-6 sm:h-8 sm:w-8 text-green-500/60 group-hover:text-green-500 transition-colors" />
+            <span className="text-gray-400 font-tech text-[9px] sm:text-[10px] md:text-xs uppercase tracking-widest font-bold leading-tight">CERTIFICADO<br />AUTORIZADO MEC</span>
           </div>
           <div className="flex flex-col items-center gap-2 sm:gap-3 group">
-            <Calendar className="h-6 w-6 sm:h-8 sm:w-8 text-black transition-colors" />
-            <span className="text-black font-tech text-[9px] sm:text-[10px] md:text-xs uppercase tracking-widest font-black leading-tight">1 ANO DE<br />ACESSO ILIMITADO</span>
+            <Calendar className="h-6 w-6 sm:h-8 sm:w-8 text-green-500/60 group-hover:text-green-500 transition-colors" />
+            <span className="text-gray-400 font-tech text-[9px] sm:text-[10px] md:text-xs uppercase tracking-widest font-bold leading-tight">1 ANO DE<br />ACESSO ILIMITADO</span>
           </div>
         </div>
       </div>
@@ -276,12 +206,12 @@ const FeatureHighlights: React.FC = () => {
 
 const MarketAnalysis: React.FC = () => {
   return (
-    <section className="py-20 md:py-24 bg-[#05080a] relative">
+    <section className="py-20 md:py-24 bg-black relative">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="font-tech font-black text-2xl md:text-5xl text-white mb-6 uppercase tracking-tighter">
-              POR QUE ESTE É O <span className="text-blue-500">MELHOR MERCADO?</span>
+              POR QUE ESTE É O <span className="text-green-500">MELHOR MERCADO?</span>
             </h2>
             <p className="text-gray-400 max-w-3xl mx-auto text-sm md:text-lg">
               Enquanto houver celulares, haverá dinheiro no seu bolso. O Brasil já possui mais smartphones do que habitantes.
@@ -289,9 +219,9 @@ const MarketAnalysis: React.FC = () => {
           </div>
 
           <div className="grid md:grid-cols-3 gap-6 md:gap-8">
-            <div className="bg-white/5 border border-white/10 p-8 rounded-[2rem] hover:border-blue-500/30 transition-all group">
-              <div className="w-14 h-14 bg-blue-600/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                <Users className="text-blue-500 h-8 w-8" />
+            <div className="bg-white/5 border border-white/10 p-8 rounded-[2rem] hover:border-green-500/30 transition-all group">
+              <div className="w-14 h-14 bg-green-600/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <Users className="text-green-500 h-8 w-8" />
               </div>
               <h3 className="font-tech font-bold text-white mb-4 uppercase tracking-tighter">Demanda Infinita</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
@@ -299,9 +229,9 @@ const MarketAnalysis: React.FC = () => {
               </p>
             </div>
 
-            <div className="bg-white/5 border border-white/10 p-8 rounded-[2rem] hover:border-blue-500/30 transition-all group">
-              <div className="w-14 h-14 bg-blue-600/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                <Coins className="text-blue-500 h-8 w-8" />
+            <div className="bg-white/5 border border-white/10 p-8 rounded-[2rem] hover:border-green-500/30 transition-all group">
+              <div className="w-14 h-14 bg-green-600/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <Coins className="text-green-500 h-8 w-8" />
               </div>
               <h3 className="font-tech font-bold text-white mb-4 uppercase tracking-tighter">Lucro Altíssimo</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
@@ -309,9 +239,9 @@ const MarketAnalysis: React.FC = () => {
               </p>
             </div>
 
-            <div className="bg-white/5 border border-white/10 p-8 rounded-[2rem] hover:border-blue-500/30 transition-all group">
-              <div className="w-14 h-14 bg-blue-600/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                <Cpu className="text-blue-500 h-8 w-8" />
+            <div className="bg-white/5 border border-white/10 p-8 rounded-[2rem] hover:border-green-500/30 transition-all group">
+              <div className="w-14 h-14 bg-green-600/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <Cpu className="text-green-500 h-8 w-8" />
               </div>
               <h3 className="font-tech font-bold text-white mb-4 uppercase tracking-tighter">Prática EAD</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
@@ -320,9 +250,9 @@ const MarketAnalysis: React.FC = () => {
             </div>
           </div>
           
-          <div className="mt-16 bg-gradient-to-r from-blue-600/20 to-transparent border-l-4 border-blue-500 p-8 rounded-r-2xl">
+          <div className="mt-16 bg-gradient-to-r from-green-600/20 to-transparent border-l-4 border-green-500 p-8 rounded-r-2xl">
             <p className="text-white font-bold italic text-sm md:text-xl leading-relaxed">
-              "Você não está apenas aprendendo a consertar telefones. Você está adquirindo a chave para a sua <span className="text-blue-500 underline underline-offset-4">liberdade financeira</span> em uma profissão que não conhece a palavra desemprego."
+              "Você não está apenas aprendendo a consertar telefones. Você está adquirindo a chave para a sua <span className="text-green-500 underline underline-offset-4">liberdade financeira</span> em uma profissão que não conhece a palavra desemprego."
             </p>
           </div>
         </div>
@@ -340,19 +270,20 @@ const VideoTestimonials: React.FC = () => {
 
   return (
     <section className="py-20 md:py-24 bg-black/80 relative overflow-hidden">
+      <div className="absolute top-1/4 -left-20 w-80 h-80 bg-green-500/5 rounded-full blur-[100px] pointer-events-none"></div>
 
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <img src="https://avancoprofissional.online/wp-content/uploads/2024/08/LOGO-Profissionalize-3-150x150.png" alt="Instituto Logo" className="h-16 md:h-24 lg:h-32 mx-auto mb-6 opacity-80" />
+          <img src={LOGO_URL} alt="Instituto Logo" className="h-10 md:h-14 mx-auto mb-4 opacity-30 grayscale" />
           <h2 className="font-tech font-black text-3xl md:text-6xl text-white mb-6 uppercase tracking-tighter">
-            HISTÓRIAS DE <span className="text-blue-500">SUCESSO</span>
+            HISTÓRIAS DE <span className="text-green-500">SUCESSO</span>
           </h2>
-          <div className="w-16 md:w-24 h-1.5 bg-blue-500 mx-auto rounded-full mb-12"></div>
+          <div className="w-16 md:w-24 h-1.5 bg-green-500 mx-auto rounded-full mb-12"></div>
         </div>
 
         {/* --- CASOS REAIS AMPLIADO - PLAYER DIRETO --- */}
         <div className="max-w-3xl mx-auto mb-20 px-2 md:px-4">
-          <div className="rounded-[2rem] md:rounded-[4rem] overflow-hidden border-2 border-blue-500/40 bg-black shadow-[0_0_80px_rgba(59,130,246,0.3)] aspect-video relative">
+          <div className="rounded-[2rem] md:rounded-[4rem] overflow-hidden border-2 border-green-500/40 bg-black shadow-[0_0_80px_rgba(34,197,94,0.3)] aspect-video relative">
             <iframe 
               className="absolute inset-0 w-full h-full"
               src="https://www.youtube-nocookie.com/embed/uX1is8qhHAQ?modestbranding=1&rel=0&showinfo=0"
@@ -364,14 +295,14 @@ const VideoTestimonials: React.FC = () => {
           </div>
           <div className="text-center mt-8">
              <h3 className="font-tech font-black text-2xl md:text-5xl text-white uppercase tracking-tighter">
-                CASOS <span className="text-blue-500">REAIS</span>
+                CASOS <span className="text-green-500">REAIS</span>
               </h3>
               <p className="text-gray-400 font-bold text-xs md:text-sm uppercase tracking-[0.3em] mt-2">DEPOIMENTOS DE NOSSOS ALUNOS</p>
           </div>
         </div>
         
         {/* Grid de Depoimentos Individuais - PLAYER DIRETO */}
-        <div className="grid md:grid-cols-3 gap-8 md:gap-10 max-w-7xl mx-auto mb-8">
+        <div className="grid md:grid-cols-3 gap-8 md:gap-10 max-w-7xl mx-auto">
           {videos.map((video, i) => (
             <div key={i} className="flex flex-col">
               <div className="bg-black rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl aspect-video relative">
@@ -384,13 +315,11 @@ const VideoTestimonials: React.FC = () => {
                   allowFullScreen
                 ></iframe>
               </div>
+              <div className="p-4 text-center">
+                <span className="text-[10px] md:text-xs text-green-500 font-tech font-bold uppercase tracking-[0.2em]">{video.title}</span>
+              </div>
             </div>
           ))}
-        </div>
-        <div className="text-center mt-8 md:mt-12">
-          <p className="text-white font-tech font-black text-lg md:text-2xl lg:text-3xl uppercase tracking-wider px-6 py-4 md:px-8 md:py-6 rounded-xl md:rounded-2xl bg-blue-500/20 border border-blue-500/40 shadow-[0_0_30px_rgba(14,165,233,0.6),0_0_60px_rgba(14,165,233,0.3)]">
-            SEJA UM ALUNO DO CURSO EAD MANUTENÇÃO DE CELULARES
-          </p>
         </div>
       </div>
     </section>
@@ -406,12 +335,12 @@ const SocialProofSection: React.FC = () => {
   ];
 
   return (
-    <section className="py-20 md:py-24 bg-[#040608]">
+    <section className="py-20 md:py-24 bg-black">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16 md:mb-20">
-          <img src="https://avancoprofissional.online/wp-content/uploads/2024/08/LOGO-Profissionalize-3-150x150.png" alt="Instituto Logo" className="h-14 md:h-20 lg:h-24 mx-auto mb-6 opacity-80" />
+          <img src={LOGO_URL} alt="Instituto Logo" className="h-10 md:h-14 mx-auto mb-6 opacity-40 grayscale" />
           <h2 className="font-tech font-black text-3xl md:text-7xl text-white mb-6 uppercase tracking-tighter leading-none">
-            MÉTODO <span className="text-blue-500">COMPROVADO</span>
+            MÉTODO <span className="text-green-500">COMPROVADO</span>
           </h2>
           <p className="text-gray-500 uppercase tracking-[0.3em] font-bold text-[8px] md:text-xs">RESULTADOS REAIS DE QUEM APLICOU O SISTEMA PROFISSIONALIZE MAXXIMA</p>
         </div>
@@ -498,16 +427,18 @@ const CourseCurriculum: React.FC = () => {
 
   return (
     <section className="py-20 md:py-24 bg-black relative overflow-hidden">
+      <div className="absolute top-1/4 -right-20 w-80 h-80 bg-green-500/5 rounded-full blur-[100px] pointer-events-none"></div>
+      
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-12 md:mb-16">
-          <div className="inline-flex items-center gap-2 bg-blue-500 text-black font-tech font-black px-4 py-2 md:px-6 md:py-3 rounded-full text-xs sm:text-sm md:text-base uppercase tracking-widest mb-6 animate-neon shadow-[0_0_30px_rgba(59,130,246,0.6)]">
+          <div className="inline-flex items-center gap-2 bg-green-500 text-black font-tech font-black px-4 py-2 md:px-6 md:py-3 rounded-full text-xs sm:text-sm md:text-base uppercase tracking-widest mb-6 animate-neon shadow-[0_0_30px_rgba(34,197,94,0.6)]">
             <MonitorPlay className="h-4 w-4 md:h-5 md:w-5 fill-black" />
             60 VÍDEO AULAS 100% ONLINE
           </div>
           <h2 className="font-tech font-black text-2xl sm:text-3xl md:text-5xl lg:text-6xl text-white mb-4 md:mb-6 uppercase tracking-tighter">
-            CONFIRA A <span className="text-blue-500">GRADE COMPLETA</span> DO CURSO
+            CONFIRA A <span className="text-green-500">GRADE COMPLETA</span> DO CURSO
           </h2>
-          <div className="w-16 md:w-24 h-1.5 bg-blue-500 mx-auto rounded-full"></div>
+          <div className="w-16 md:w-24 h-1.5 bg-green-500 mx-auto rounded-full"></div>
         </div>
 
         <div className="max-w-5xl mx-auto">
@@ -515,11 +446,11 @@ const CourseCurriculum: React.FC = () => {
             {lessons.map((lesson, index) => (
               <div
                 key={index}
-                className="bg-white/5 border border-white/10 rounded-xl md:rounded-2xl p-4 md:p-5 hover:border-blue-500/50 hover:bg-white/10 transition-all duration-300 group"
+                className="bg-white/5 border border-white/10 rounded-xl md:rounded-2xl p-4 md:p-5 hover:border-green-500/50 hover:bg-white/10 transition-all duration-300 group"
               >
                 <div className="flex items-start gap-3">
-                  <div className="flex-shrink-0 w-8 h-8 md:w-10 md:h-10 bg-blue-600/20 rounded-lg flex items-center justify-center group-hover:bg-blue-600/30 transition-colors">
-                    <span className="text-blue-500 font-tech font-black text-xs md:text-sm">
+                  <div className="flex-shrink-0 w-8 h-8 md:w-10 md:h-10 bg-green-600/20 rounded-lg flex items-center justify-center group-hover:bg-green-600/30 transition-colors">
+                    <span className="text-green-500 font-tech font-black text-xs md:text-sm">
                       {String(index + 1).padStart(2, '0')}
                     </span>
                   </div>
@@ -538,26 +469,20 @@ const CourseCurriculum: React.FC = () => {
 
 const CareerInfoSection: React.FC = () => {
   return (
-    <section className="py-20 md:py-24 bg-[#05080a] relative overflow-hidden">
+    <section className="py-20 md:py-24 bg-black relative overflow-hidden">
+      <div className="absolute top-1/4 -left-20 w-80 h-80 bg-green-500/5 rounded-full blur-[100px] pointer-events-none"></div>
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-8 md:mb-12">
-            <img 
-              src="https://avancoprofissional.online/wp-content/uploads/2024/08/LOGO-Profissionalize-3-150x150.png" 
-              alt="Logo Instituto Professionalize Maxxima" 
-              className="h-12 md:h-16 lg:h-20 mx-auto mb-6 opacity-80"
-            />
-          </div>
           <div className="grid md:grid-cols-2 gap-6 md:gap-8 mb-8 md:mb-12">
             {/* O que faz */}
-            <div className="bg-white/5 border border-white/10 rounded-2xl md:rounded-[2.5rem] p-6 md:p-8 hover:border-blue-500/30 transition-all">
+            <div className="bg-white/5 border border-white/10 rounded-2xl md:rounded-[2.5rem] p-6 md:p-8 hover:border-green-500/30 transition-all">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-blue-600/20 rounded-xl flex items-center justify-center">
-                  <Smartphone className="h-6 w-6 text-blue-500" />
+                <div className="w-12 h-12 bg-green-600/20 rounded-xl flex items-center justify-center">
+                  <Smartphone className="h-6 w-6 text-green-500" />
                 </div>
                 <h3 className="font-tech font-black text-lg md:text-2xl text-white uppercase tracking-tighter">
-                  O que faz um técnico em <span className="text-blue-500">Manutenção De Celulares?</span>
+                  O que faz um técnico em <span className="text-green-500">Manutenção De Celulares?</span>
                 </h3>
               </div>
               <p className="text-gray-300 text-sm md:text-base leading-relaxed">
@@ -566,13 +491,13 @@ const CareerInfoSection: React.FC = () => {
             </div>
 
             {/* Onde trabalha */}
-            <div className="bg-white/5 border border-white/10 rounded-2xl md:rounded-[2.5rem] p-6 md:p-8 hover:border-blue-500/30 transition-all">
+            <div className="bg-white/5 border border-white/10 rounded-2xl md:rounded-[2.5rem] p-6 md:p-8 hover:border-green-500/30 transition-all">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-blue-600/20 rounded-xl flex items-center justify-center">
-                  <Globe className="h-6 w-6 text-blue-500" />
+                <div className="w-12 h-12 bg-green-600/20 rounded-xl flex items-center justify-center">
+                  <Globe className="h-6 w-6 text-green-500" />
                 </div>
                 <h3 className="font-tech font-black text-lg md:text-2xl text-white uppercase tracking-tighter">
-                  Onde Trabalha um técnico em <span className="text-blue-500">Manutenção De Celulares?</span>
+                  Onde Trabalha um técnico em <span className="text-green-500">Manutenção De Celulares?</span>
                 </h3>
               </div>
               <p className="text-gray-300 text-sm md:text-base leading-relaxed">
@@ -583,48 +508,45 @@ const CareerInfoSection: React.FC = () => {
 
           <div className="grid md:grid-cols-2 gap-6 md:gap-8 mb-8 md:mb-12">
             {/* Quanto ganha */}
-            <div className="bg-gradient-to-br from-blue-600/10 to-blue-500/5 border border-blue-500/30 rounded-2xl md:rounded-[2.5rem] p-6 md:p-8 hover:border-blue-500/50 transition-all">
+            <div className="bg-gradient-to-br from-green-600/10 to-green-500/5 border border-green-500/30 rounded-2xl md:rounded-[2.5rem] p-6 md:p-8 hover:border-green-500/50 transition-all">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-blue-600/30 rounded-xl flex items-center justify-center">
-                  <Coins className="h-6 w-6 text-blue-500" />
+                <div className="w-12 h-12 bg-green-600/30 rounded-xl flex items-center justify-center">
+                  <Coins className="h-6 w-6 text-green-500" />
                 </div>
                 <h3 className="font-tech font-black text-lg md:text-2xl text-white uppercase tracking-tighter">
-                  Quanto Ganha um técnico em <span className="text-blue-500">Manutenção De Celulares?</span>
+                  Quanto Ganha um técnico em <span className="text-green-500">Manutenção De Celulares?</span>
                 </h3>
               </div>
               <p className="text-gray-300 text-sm md:text-base leading-relaxed mb-4">
                 O salário de um técnico em manutenção de celulares no Brasil varia de <span className="text-white font-bold">R$ 1.900 a R$ 4.500</span> por mês, dependendo da região onde atua, da experiência e da especialização do profissional, além do tipo de empresa em que trabalha. Esses valores podem variar e devem ser considerados apenas como uma referência.
               </p>
-              <div className="text-center">
-                <button 
-                  onClick={scrollToCheckout}
-                  className="w-full bg-gradient-to-r from-blue-500 via-blue-400 to-blue-500 text-white font-tech font-black text-lg md:text-xl lg:text-2xl px-6 md:px-8 py-4 md:py-5 rounded-xl transition-all active:scale-95 uppercase tracking-widest shadow-2xl animate-blink-button relative overflow-hidden mb-2"
-                >
-                  <span className="relative z-10">LUCRE 180 EM 20'</span>
-                </button>
-                <p className="text-gray-400 text-xs md:text-sm mt-2">Lucro médio por reparo rápido</p>
+              <div className="bg-green-500/20 border border-green-500/40 rounded-xl p-4 text-center">
+                <p className="text-green-500 font-tech font-black text-xl md:text-2xl uppercase tracking-widest">
+                  R$ 180 em 20 min
+                </p>
+                <p className="text-gray-400 text-xs md:text-sm mt-1">Lucro médio por reparo rápido</p>
               </div>
             </div>
 
             {/* Quem pode fazer */}
-            <div className="bg-white/5 border border-white/10 rounded-2xl md:rounded-[2.5rem] p-6 md:p-8 hover:border-blue-500/30 transition-all">
+            <div className="bg-white/5 border border-white/10 rounded-2xl md:rounded-[2.5rem] p-6 md:p-8 hover:border-green-500/30 transition-all">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-blue-600/20 rounded-xl flex items-center justify-center">
-                  <Users className="h-6 w-6 text-blue-500" />
+                <div className="w-12 h-12 bg-green-600/20 rounded-xl flex items-center justify-center">
+                  <Users className="h-6 w-6 text-green-500" />
                 </div>
                 <h3 className="font-tech font-black text-lg md:text-2xl text-white uppercase tracking-tighter">
-                  Quem pode fazer <span className="text-blue-500">este curso?</span>
+                  Quem pode fazer <span className="text-green-500">este curso?</span>
                 </h3>
               </div>
               <p className="text-gray-300 text-sm md:text-base leading-relaxed mb-4">
                 Este curso é indicado para as pessoas que gostariam de obter uma qualificação profissional. É oferecido para candidatos, com ou sem experiência.
               </p>
               <div className="space-y-2">
-                <div className="flex items-center gap-2 text-blue-500">
+                <div className="flex items-center gap-2 text-green-500">
                   <CheckCircle className="h-4 w-4 flex-shrink-0" />
                   <span className="text-sm md:text-base">Idade mínima 15 anos</span>
                 </div>
-                <div className="flex items-center gap-2 text-blue-500">
+                <div className="flex items-center gap-2 text-green-500">
                   <CheckCircle className="h-4 w-4 flex-shrink-0" />
                   <span className="text-sm md:text-base">Não precisa ter Ensino Médio Completo</span>
                 </div>
@@ -641,15 +563,16 @@ const BonusSection: React.FC = () => {
   return (
     <section className="py-12 bg-black">
       <div className="container mx-auto px-4 max-w-3xl">
-        <div className="bg-gradient-to-br from-[#0a0f12] to-black rounded-2xl md:rounded-[2.5rem] p-6 md:p-12 border border-blue-500/20 relative overflow-hidden">
-          <div className="absolute top-0 right-0 bg-blue-600 text-white font-black px-4 md:px-6 py-1.5 md:py-2 rounded-bl-3xl uppercase text-[8px] md:text-[9px] tracking-widest">
+        <div className="bg-gradient-to-br from-[#0a0f12] to-black rounded-2xl md:rounded-[2.5rem] p-6 md:p-12 border border-green-500/20 relative overflow-hidden">
+          <div className="absolute top-0 right-0 bg-green-600 text-white font-black px-4 md:px-6 py-1.5 md:py-2 rounded-bl-3xl uppercase text-[8px] md:text-[9px] tracking-widest">
             BÔNUS EXCLUSIVOS
           </div>
           
           <div className="grid md:grid-cols-2 gap-8 md:gap-10 items-center">
             <div>
+              <img src={LOGO_URL} alt="Logo" className="h-8 md:h-10 mb-4 md:mb-6 opacity-60" />
               <h2 className="font-tech font-black text-xl md:text-3xl mb-4 text-white uppercase tracking-tighter leading-tight">
-                COMBO DE <span className="text-blue-500">PRESENTE</span>
+                COMBO DE <span className="text-green-500">PRESENTE</span>
               </h2>
               <div className="space-y-4 mb-6">
                 <p className="text-gray-300 font-bold text-sm md:text-base leading-relaxed">
@@ -657,17 +580,17 @@ const BonusSection: React.FC = () => {
                 </p>
                 <div className="flex flex-col gap-2">
                   <span className="text-gray-400 font-black text-base md:text-2xl line-through decoration-red-600 decoration-[2px]">VALOR REAL: R$ 250,00</span>
-                  <span className="text-blue-500 font-tech font-black text-2xl md:text-4xl">SAI POR: R$ 0,00</span>
+                  <span className="text-green-500 font-tech font-black text-2xl md:text-4xl">SAI POR: R$ 0,00</span>
                 </div>
               </div>
-              <div className="inline-flex items-center gap-2 md:gap-3 text-blue-500 font-tech font-bold text-[8px] md:text-[10px] uppercase tracking-[0.2em] border border-blue-500/20 px-4 py-2 rounded-full">
+              <div className="inline-flex items-center gap-2 md:gap-3 text-green-500 font-tech font-bold text-[8px] md:text-[10px] uppercase tracking-[0.2em] border border-green-500/20 px-4 py-2 rounded-full">
                 <CheckCircle className="h-3 w-3 md:h-4 md:w-4" /> LIBERAÇÃO IMEDIATA
               </div>
             </div>
             
             <div className="flex justify-center group">
               <img 
-                src="https://curso-manutencaodecelular.online/wp-content/uploads/2024/01/DESIGN-CILIOS-E-SOBRANCELHAS-2.png" 
+                src="https://curso-manutencaodecelular.online/wp-content/uploads/2024/01/12-livros_reduzido.png" 
                 alt="12 Livros Coloridos" 
                 className="w-full max-w-[180px] md:max-w-[240px] h-auto object-contain drop-shadow-2xl transition-transform duration-500 group-hover:scale-110"
               />
@@ -685,10 +608,11 @@ const CertificateSection: React.FC = () => {
       <div className="container mx-auto px-4 text-center">
         <img src={LOGO_URL} alt="Instituto Logo" className="h-10 md:h-14 mx-auto mb-6 opacity-30 grayscale" />
         <h2 className="font-tech font-black text-xl md:text-4xl text-white mb-12 md:text-white uppercase tracking-widest">
-          QUALIFICAÇÃO <span className="text-blue-500">CERTIFICADA</span>
+          QUALIFICAÇÃO <span className="text-green-500">CERTIFICADA</span>
         </h2>
         
         <div className="max-w-md md:max-w-lg mx-auto relative group">
+          <div className="absolute -inset-10 bg-green-500/10 rounded-full blur-[80px] md:blur-[100px] opacity-50 group-hover:opacity-100 transition-opacity"></div>
           <img 
             src="https://curso-manutencaodecelular.online/wp-content/uploads/2024/01/Frente-5-1024x724.png" 
             alt="Certificado Oficial Colorido" 
@@ -725,17 +649,10 @@ const Pricing: React.FC = () => {
   return (
     <section id="pricing" className="pt-16 sm:pt-20 md:pt-24 pb-12 sm:pb-16 md:pb-20 lg:pb-24 relative bg-black">
       <div className="container mx-auto px-3 sm:px-4 max-w-lg md:max-w-2xl">
-        <div className="bg-[#0a0f12] rounded-xl sm:rounded-2xl md:rounded-[3rem] pt-8 sm:pt-10 md:pt-12 px-4 sm:px-6 md:px-8 lg:px-12 pb-6 sm:pb-8 md:pb-12 border border-blue-500/30 text-center relative overflow-visible shadow-2xl shadow-green-900/10">
+        <div className="bg-black rounded-xl sm:rounded-2xl md:rounded-[3rem] pt-8 sm:pt-10 md:pt-12 px-4 sm:px-6 md:px-8 lg:px-12 pb-6 sm:pb-8 md:pb-12 border border-green-500/30 text-center relative overflow-visible shadow-2xl shadow-green-900/10">
           
           <div className="mb-5 sm:mb-6 md:mb-8 lg:mb-12">
-            <div className="flex justify-center mb-4 sm:mb-6">
-              <img 
-                src="https://avancoprofissional.online/wp-content/uploads/2024/08/LOGO-Profissionalize-3-150x150.png" 
-                alt="Logo Instituto Professionalize Maxxima" 
-                className="h-16 w-16 sm:h-20 sm:w-20 md:h-24 md:w-24 lg:h-28 lg:w-28 object-contain opacity-90"
-              />
-            </div>
-            <p className="font-tech font-black text-[10px] sm:text-xs md:text-sm lg:text-xl text-blue-500 uppercase tracking-tighter italic animate-pulse leading-tight">
+            <p className="font-tech font-black text-[10px] sm:text-xs md:text-sm lg:text-xl text-green-500 uppercase tracking-tighter italic animate-pulse leading-tight">
               <span className="block sm:inline">A OPORTUNIDADE AO SEU ALCANCE,</span>
               <span className="block sm:inline sm:ml-1">A MUDANÇA AGORA ESTÁ COM VOCÊ!</span>
             </p>
@@ -746,7 +663,7 @@ const Pricing: React.FC = () => {
               <div className="font-tech text-xl sm:text-2xl md:text-3xl lg:text-5xl font-black text-white italic leading-none">{timeLeft.minutes.toString().padStart(2, '0')}</div>
               <div className="text-[8px] sm:text-[9px] md:text-[10px] lg:text-[9px] text-gray-500 font-bold uppercase tracking-widest mt-1 sm:mt-1.5 md:mt-2">Minutos</div>
             </div>
-            <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-blue-500 font-black leading-none">:</div>
+            <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-green-500 font-black leading-none">:</div>
             <div className="text-center">
               <div className="font-tech text-xl sm:text-2xl md:text-3xl lg:text-5xl font-black text-white italic leading-none">{timeLeft.seconds.toString().padStart(2, '0')}</div>
               <div className="text-[8px] sm:text-[9px] md:text-[10px] lg:text-[9px] text-gray-500 font-bold uppercase tracking-widest mt-1 sm:mt-1.5 md:mt-2">Segundos</div>
@@ -757,7 +674,7 @@ const Pricing: React.FC = () => {
           <div className="flex flex-col items-center mb-6 sm:mb-8 md:mb-10 pt-1 sm:pt-2">
             <div className="text-white text-xs sm:text-sm md:text-base lg:text-lg xl:text-2xl font-black line-through decoration-red-600 decoration-[1px] mb-1.5 sm:mb-2 md:mb-3 lg:mb-4">DE R$ 297,00</div>
             <div className="font-tech text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-7xl font-black text-white tracking-tighter italic leading-none px-1">R$ 97,00</div>
-            <div className="text-[7px] sm:text-[8px] md:text-[9px] lg:text-[10px] text-blue-500 font-bold uppercase tracking-widest mt-2 sm:mt-2.5 md:mt-3 lg:mt-4 text-center px-2 leading-tight">
+            <div className="text-[7px] sm:text-[8px] md:text-[9px] lg:text-[10px] text-green-500 font-bold uppercase tracking-widest mt-2 sm:mt-2.5 md:mt-3 lg:mt-4 text-center px-2 leading-tight">
               <span className="block sm:inline">PAGAMENTO ÚNICO</span>
               <span className="block sm:inline sm:ml-1">– SEM MENSALIDADE</span>
             </div>
@@ -765,7 +682,7 @@ const Pricing: React.FC = () => {
 
           <button 
             onClick={scrollToCheckout}
-            className="w-full bg-blue-600 hover:bg-blue-500 text-white font-tech font-black text-xs sm:text-sm md:text-lg py-4 sm:py-5 md:py-6 rounded-xl sm:rounded-2xl transition-all shadow-xl shadow-green-900/30 uppercase tracking-widest active:scale-95 animate-neon-button"
+            className="w-full bg-green-600 hover:bg-green-500 text-white font-tech font-black text-xs sm:text-sm md:text-lg py-4 sm:py-5 md:py-6 rounded-xl sm:rounded-2xl transition-all shadow-xl shadow-green-900/30 uppercase tracking-widest active:scale-95 animate-neon-button"
           >
             QUERO MINHA VAGA AGORA
           </button>
@@ -860,13 +777,13 @@ const CheckoutSection: React.FC = () => {
   return (
     <section id="checkout-section" className="py-12 sm:py-16 md:py-20 lg:py-24 bg-black">
       <div className="container mx-auto px-3 sm:px-4 text-center">
-        <div className="flex items-center justify-center gap-2 sm:gap-3 bg-gradient-to-r from-blue-600/20 to-blue-500/20 border border-blue-500/30 px-4 sm:px-6 md:px-8 py-3 sm:py-4 md:py-5 rounded-full backdrop-blur-sm mb-6 sm:mb-8 md:mb-10 max-w-2xl mx-auto">
-          <Users className="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 text-blue-500 flex-shrink-0" />
+        <div className="flex items-center justify-center gap-2 sm:gap-3 bg-gradient-to-r from-green-600/20 to-green-500/20 border border-green-500/30 px-4 sm:px-6 md:px-8 py-3 sm:py-4 md:py-5 rounded-full backdrop-blur-sm mb-6 sm:mb-8 md:mb-10 max-w-2xl mx-auto">
+          <Users className="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 text-green-500 flex-shrink-0" />
           <div className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2">
             <span className="text-white font-tech font-bold text-xs sm:text-sm md:text-base uppercase tracking-widest">
               JÁ SÃO MAIS DE
             </span>
-            <span className="text-blue-500 font-tech font-black text-xl sm:text-2xl md:text-3xl lg:text-4xl">
+            <span className="text-green-500 font-tech font-black text-xl sm:text-2xl md:text-3xl lg:text-4xl">
               25.000+
             </span>
             <span className="text-white font-tech font-bold text-xs sm:text-sm md:text-base uppercase tracking-widest">
@@ -876,13 +793,13 @@ const CheckoutSection: React.FC = () => {
         </div>
         
         <div className="flex items-center justify-center gap-2 sm:gap-3 md:gap-4 mb-6 sm:mb-8 md:mb-10 px-2">
-          <ArrowDown className="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 text-blue-500 animate-bounce flex-shrink-0" />
+          <ArrowDown className="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 text-green-500 animate-bounce flex-shrink-0" />
           <h2 className="font-tech font-black text-base sm:text-lg md:text-xl lg:text-3xl text-white uppercase tracking-widest text-center">
-            PAGAMENTO SEGURO <span className="text-blue-500 block sm:inline sm:ml-1">VIA HOTMART</span>
+            PAGAMENTO SEGURO <span className="text-green-500 block sm:inline sm:ml-1">VIA HOTMART</span>
           </h2>
-          <ArrowDown className="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 text-blue-500 animate-bounce flex-shrink-0" />
+          <ArrowDown className="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 text-green-500 animate-bounce flex-shrink-0" />
         </div>
-        <div className="max-w-4xl mx-auto rounded-xl sm:rounded-2xl md:rounded-[3rem] border border-white/5 overflow-hidden bg-[#0a0f12] shadow-2xl relative" style={{ height: 'clamp(500px, 80vh, 900px)', overflow: 'hidden', minHeight: '500px' }}>
+        <div className="max-w-4xl mx-auto rounded-xl sm:rounded-2xl md:rounded-[3rem] border border-white/5 overflow-hidden bg-black shadow-2xl relative" style={{ height: 'clamp(500px, 80vh, 900px)', overflow: 'hidden', minHeight: '500px' }}>
           <div 
             className="absolute inset-0"
             style={{ 
@@ -950,25 +867,18 @@ const FAQ: React.FC = () => {
   ];
 
   return (
-    <section className="py-20 md:py-24 bg-black border-t border-white/5">
+    <section className="py-20 md:py-24 border-t border-white/5">
       <div className="container mx-auto px-4 max-w-2xl">
-        <div className="text-center mb-8 md:mb-12">
-          <img 
-            src="https://avancoprofissional.online/wp-content/uploads/2024/08/LOGO-Profissionalize-3-150x150.png" 
-            alt="Logo Instituto Professionalize Maxxima" 
-            className="h-14 md:h-20 lg:h-24 mx-auto mb-6 opacity-80"
-          />
-        </div>
         <h2 className="font-tech font-black text-xl text-center mb-12 md:mb-16 text-white uppercase tracking-[0.3em]">SUPORTE & DÚVIDAS</h2>
         <div className="space-y-4">
           {questions.map((item, i) => (
-            <div key={i} className="bg-white/5 rounded-xl md:rounded-2xl overflow-hidden border border-white/5 transition-all hover:border-blue-500/20">
+            <div key={i} className="bg-white/5 rounded-xl md:rounded-2xl overflow-hidden border border-white/5 transition-all hover:border-green-500/20">
               <button 
                 onClick={() => setOpenIndex(openIndex === i ? null : i)}
                 className="w-full p-5 md:p-6 text-left flex justify-between items-center group"
               >
-                <span className="font-bold text-[10px] md:text-sm text-gray-300 group-hover:text-blue-500 transition-colors uppercase tracking-widest">{item.q}</span>
-                <Plus className={`h-4 w-4 text-blue-500 transition-transform ${openIndex === i ? 'rotate-45' : ''}`} />
+                <span className="font-bold text-[10px] md:text-sm text-gray-300 group-hover:text-green-500 transition-colors uppercase tracking-widest">{item.q}</span>
+                <Plus className={`h-4 w-4 text-green-500 transition-transform ${openIndex === i ? 'rotate-45' : ''}`} />
               </button>
               {openIndex === i && (
                 <div className="px-5 pb-5 md:px-6 md:pb-6 text-gray-400 text-[10px] md:text-sm leading-relaxed italic border-t border-white/5 pt-4">
@@ -985,22 +895,29 @@ const FAQ: React.FC = () => {
 
 const SocialLinks: React.FC = () => {
   return (
-    <section className="py-10 md:py-14 bg-black shadow-[0_0_80px_rgba(59,130,246,0.5)] relative z-20">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col items-center justify-center text-center">
-          <h3 className="font-tech font-black text-sm md:text-2xl text-white mb-6 uppercase tracking-[0.3em] leading-tight">
-            SIGA A PROFISSIONALIZE MAXXIMA <br className="hidden md:block" /> NAS REDES SOCIAIS
-          </h3>
-          <div className="flex justify-center items-center gap-10 md:gap-20 flex-wrap">
-            <a href="https://www.instagram.com/inst.profissionalizemaxxima/" target="_blank" rel="noopener noreferrer" className="text-white/80 hover:text-white transition-all hover:scale-125 animate-bounce-subtle">
-              <Instagram className="h-12 w-12 md:h-20 md:w-20 stroke-[2.5]" />
-            </a>
-            <a href="https://www.facebook.com/institutomaxxima/?locale=pt_BR" target="_blank" rel="noopener noreferrer" className="text-white/80 hover:text-white transition-all hover:scale-125 animate-bounce-subtle delay-100">
-              <Facebook className="h-12 w-12 md:h-20 md:w-20 stroke-[2.5]" />
-            </a>
-            <a href="https://www.youtube.com/@profissionalizemaxxima" target="_blank" rel="noopener noreferrer" className="text-white/80 hover:text-white transition-all hover:scale-125 animate-bounce-subtle delay-200">
+    <section className="py-10 md:py-14 bg-gradient-to-br from-green-400 via-green-500 to-green-600 shadow-[0_0_80px_rgba(34,197,94,0.5)] relative z-20">
+      <div className="container mx-auto px-4 text-center">
+        <h3 className="font-tech font-black text-sm md:text-2xl text-black mb-6 uppercase tracking-[0.3em] leading-tight">
+          SIGA A PROFISSIONALIZE MAXXIMA <br className="hidden md:block" /> NAS REDES SOCIAIS
+        </h3>
+        <div className="flex justify-center items-center gap-10 md:gap-20 flex-wrap">
+          <a href="https://www.instagram.com/inst.profissionalizemaxxima/" target="_blank" rel="noopener noreferrer" className="text-black/80 hover:text-black transition-all hover:scale-125 animate-bounce-subtle">
+            <Instagram className="h-12 w-12 md:h-20 md:w-20 stroke-[2.5]" />
+          </a>
+          <a href="https://www.facebook.com/institutomaxxima/?locale=pt_BR" target="_blank" rel="noopener noreferrer" className="text-black/80 hover:text-black transition-all hover:scale-125 animate-bounce-subtle delay-100">
+            <Facebook className="h-12 w-12 md:h-20 md:w-20 stroke-[2.5]" />
+          </a>
+          <div className="flex items-center gap-4 md:gap-10">
+            <a href="https://www.youtube.com/@profissionalizemaxxima" target="_blank" rel="noopener noreferrer" className="text-black/80 hover:text-black transition-all hover:scale-125 animate-bounce-subtle delay-200">
               <Youtube className="h-12 w-12 md:h-20 md:w-20 stroke-[2.5]" />
             </a>
+            <div className="animate-bounce-subtle delay-300">
+              <img 
+                src={LOGO_URL} 
+                alt="Instituto Logo" 
+                className="h-12 md:h-20 w-auto object-contain drop-shadow-lg grayscale brightness-0 hover:grayscale-0 hover:brightness-100 transition-all duration-500" 
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -1012,13 +929,6 @@ const Footer: React.FC = () => {
   return (
     <footer className="py-16 md:py-20 pb-24 sm:pb-28 md:pb-32 bg-black text-center border-t border-white/5 relative z-10">
       <div className="container mx-auto px-4">
-        <div className="mb-8 md:mb-12 flex justify-center">
-          <img 
-            src="https://avancoprofissional.online/wp-content/uploads/2024/08/LOGO-Profissionalize-3-150x150.png" 
-            alt="Logo Instituto Professionalize Maxxima" 
-            className="h-32 w-32 md:h-40 md:w-40 lg:h-48 lg:w-48 xl:h-56 xl:w-56 object-contain opacity-80 hover:opacity-100 transition-opacity"
-          />
-        </div>
         <p className="text-[9px] md:text-[11px] text-gray-500 font-bold uppercase tracking-[0.2em] max-w-4xl mx-auto leading-loose px-4">
           Copyright 2025 – INSTITUTO PROFISSIONALIZE MÁXXIMA ® CNPJ 43.774.046/0001-70 Todos os direitos reservados.
         </p>
@@ -1086,7 +996,7 @@ const FloatingCTAButton: React.FC = () => {
     <div className="fixed bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-[100] w-full max-w-[95%] sm:max-w-[90%] md:max-w-md pointer-events-none transition-all duration-500 animate-in fade-in slide-in-from-bottom-10">
       <button 
         onClick={scrollToCheckout}
-        className="w-full pointer-events-auto bg-blue-600 hover:bg-blue-500 text-white py-3 sm:py-4 md:py-5 rounded-xl sm:rounded-2xl font-tech font-black text-[9px] sm:text-[10px] md:text-sm uppercase tracking-widest transition-all active:scale-95 relative group overflow-hidden animate-neon-button"
+        className="w-full pointer-events-auto bg-green-600 hover:bg-green-500 text-white py-3 sm:py-4 md:py-5 rounded-xl sm:rounded-2xl font-tech font-black text-[9px] sm:text-[10px] md:text-sm uppercase tracking-widest transition-all active:scale-95 relative group overflow-hidden animate-neon-button"
       >
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
         <span className="flex items-center justify-center gap-2 sm:gap-3 relative z-10">
@@ -1102,26 +1012,26 @@ const FloatingCTAButton: React.FC = () => {
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-black text-white selection:bg-blue-500 selection:text-black overflow-x-hidden">
+    <div className="min-h-screen bg-black text-white selection:bg-green-500 selection:text-black overflow-x-hidden">
       <style>
         {`
           @keyframes neon-glow-button {
             0%, 100% { 
-              box-shadow: 0 0 10px rgba(59, 130, 246, 0.4), 0 0 20px rgba(59, 130, 246, 0.2); 
+              box-shadow: 0 0 10px rgba(34, 197, 94, 0.4), 0 0 20px rgba(34, 197, 94, 0.2); 
               filter: brightness(100%);
             }
             50% { 
-              box-shadow: 0 0 25px rgba(59, 130, 246, 0.8), 0 0 50px rgba(59, 130, 246, 0.4); 
+              box-shadow: 0 0 25px rgba(34, 197, 94, 0.8), 0 0 50px rgba(34, 197, 94, 0.4); 
               filter: brightness(130%);
             }
           }
           @keyframes neon-glow-play {
             0%, 100% { 
-              box-shadow: 0 0 15px rgba(59, 130, 246, 0.6), inset 0 0 10px rgba(255, 255, 255, 0.3);
+              box-shadow: 0 0 15px rgba(34, 197, 94, 0.6), inset 0 0 10px rgba(255, 255, 255, 0.3);
               transform: scale(1);
             }
             50% { 
-              box-shadow: 0 0 40px rgba(59, 130, 246, 1), inset 0 0 15px rgba(255, 255, 255, 0.5);
+              box-shadow: 0 0 40px rgba(34, 197, 94, 1), inset 0 0 15px rgba(255, 255, 255, 0.5);
               transform: scale(1.1);
             }
           }
@@ -1129,29 +1039,8 @@ export default function App() {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
           }
-          @keyframes blink-button {
-            0%, 100% { 
-              box-shadow: 0 0 20px rgba(14, 165, 233, 0.8), 0 0 40px rgba(14, 165, 233, 0.6), 0 0 60px rgba(14, 165, 233, 0.4);
-              filter: brightness(1);
-            }
-            25% { 
-              box-shadow: 0 0 40px rgba(14, 165, 233, 1), 0 0 80px rgba(14, 165, 233, 0.8), 0 0 120px rgba(14, 165, 233, 0.6);
-              filter: brightness(1.5);
-            }
-            50% { 
-              box-shadow: 0 0 20px rgba(14, 165, 233, 0.8), 0 0 40px rgba(14, 165, 233, 0.6), 0 0 60px rgba(14, 165, 233, 0.4);
-              filter: brightness(1);
-            }
-            75% { 
-              box-shadow: 0 0 40px rgba(14, 165, 233, 1), 0 0 80px rgba(14, 165, 233, 0.8), 0 0 120px rgba(14, 165, 233, 0.6);
-              filter: brightness(1.5);
-            }
-          }
           .animate-neon-button {
             animation: neon-glow-button 1.5s infinite ease-in-out;
-          }
-          .animate-blink-button {
-            animation: blink-button 1s infinite ease-in-out;
           }
           .animate-neon-play-button {
             animation: neon-glow-play 2s infinite ease-in-out;

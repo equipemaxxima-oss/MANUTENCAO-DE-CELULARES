@@ -59,7 +59,7 @@ const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
     <PixelLoader>
-      <App />
+    <App />
     </PixelLoader>
   </React.StrictMode>
 );
