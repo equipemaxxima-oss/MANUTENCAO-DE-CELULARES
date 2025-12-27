@@ -126,16 +126,20 @@ const StudentCounter: React.FC = () => {
 
 const Hero: React.FC = () => {
   return (
-    <section className="pt-24 sm:pt-28 pb-10 sm:pb-12 md:pt-48 md:pb-24 relative overflow-hidden">
+    <section className="pt-20 sm:pt-24 md:pt-28 lg:pt-48 pb-10 sm:pb-12 md:pb-24 relative overflow-hidden">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full pointer-events-none">
         <div className="absolute top-20 left-10 w-64 h-64 md:w-96 md:h-96 bg-green-500/10 rounded-full blur-[120px] md:blur-[180px]"></div>
         <div className="absolute bottom-20 right-10 w-64 h-64 md:w-96 md:h-96 bg-green-800/10 rounded-full blur-[120px] md:blur-[180px]"></div>
       </div>
       
       <div className="container mx-auto px-4 text-center relative z-10">
-        <div className="inline-flex items-center gap-1.5 sm:gap-2 bg-green-500 text-black font-tech font-black px-3 py-1.5 sm:px-4 sm:py-2 md:px-8 md:py-3 rounded-full text-[9px] sm:text-[10px] md:text-sm uppercase tracking-widest mb-6 sm:mb-8 animate-neon shadow-[0_0_30px_rgba(34,197,94,0.6)] transform -rotate-1 hover:rotate-0 transition-transform cursor-default">
-          <Zap className="h-3 w-3 sm:h-4 sm:w-4 fill-black flex-shrink-0" />
-          <span className="whitespace-nowrap">BOLSA DE ESTUDOS: DE <span className="line-through opacity-60">R$ 297,00</span> POR APENAS R$ 97,00</span>
+        <div className="inline-flex items-center gap-1 sm:gap-1.5 md:gap-2 bg-green-500 text-black font-tech font-black px-2.5 py-1.5 sm:px-3 sm:py-2 md:px-6 md:py-2.5 lg:px-8 lg:py-3 rounded-full text-[7px] sm:text-[8px] md:text-[10px] lg:text-sm uppercase tracking-widest mb-6 sm:mb-8 animate-neon shadow-[0_0_30px_rgba(34,197,94,0.6)] transform -rotate-1 hover:rotate-0 transition-transform cursor-default max-w-[95%] sm:max-w-none">
+          <Zap className="h-2.5 w-2.5 sm:h-3 sm:w-3 md:h-4 md:w-4 fill-black flex-shrink-0" />
+          <span className="text-center leading-tight">
+            <span className="block sm:inline">BOLSA DE ESTUDOS:</span>
+            <span className="block sm:inline sm:ml-1">DE <span className="line-through opacity-60">R$ 297,00</span></span>
+            <span className="block sm:inline sm:ml-1">POR APENAS R$ <span className="text-white text-[9px] sm:text-[10px] md:text-[12px] lg:text-base font-black">97</span>,00</span>
+          </span>
         </div>
 
         <h1 className="font-tech font-black leading-[1.1] uppercase tracking-tighter mb-6 md:mb-8">
@@ -614,8 +618,8 @@ const CertificateSection: React.FC = () => {
             alt="Certificado Oficial Colorido" 
             className="relative z-10 w-full h-auto rounded-xl md:rounded-3xl shadow-2xl border border-white/10 transition-all duration-700 group-hover:scale-105"
           />
-          <div className="absolute -bottom-6 -right-6 md:-bottom-8 md:-right-8 w-20 md:w-32 animate-pulse z-20">
-            <img src="https://curso-manutencaodecelular.online/wp-content/uploads/2024/03/copy_of_mec.png" alt="Selo MEC" className="w-full h-auto" />
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-24 md:w-36 lg:w-40 animate-pulse z-20 flex justify-center">
+            <img src="https://curso-manutencaodecelular.online/wp-content/uploads/2024/03/copy_of_mec.png" alt="Selo MEC" className="w-full h-auto max-w-full" />
           </div>
         </div>
         <p className="mt-8 text-gray-400 font-bold uppercase tracking-widest text-[10px] md:text-sm">
@@ -643,33 +647,37 @@ const Pricing: React.FC = () => {
   }, [timeLeft]);
 
   return (
-    <section id="pricing" className="py-20 md:py-24 relative bg-black">
-      <div className="container mx-auto px-4 max-w-lg md:max-w-2xl">
-        <div className="bg-[#0a0f12] rounded-[2rem] md:rounded-[3rem] p-8 md:p-12 border border-green-500/30 text-center relative overflow-hidden shadow-2xl shadow-green-900/10">
+    <section id="pricing" className="pt-16 sm:pt-20 md:pt-24 pb-12 sm:pb-16 md:pb-20 lg:pb-24 relative bg-black">
+      <div className="container mx-auto px-3 sm:px-4 max-w-lg md:max-w-2xl">
+        <div className="bg-[#0a0f12] rounded-xl sm:rounded-2xl md:rounded-[3rem] pt-8 sm:pt-10 md:pt-12 px-4 sm:px-6 md:px-8 lg:px-12 pb-6 sm:pb-8 md:pb-12 border border-green-500/30 text-center relative overflow-visible shadow-2xl shadow-green-900/10">
           
-          <div className="mb-8 md:mb-12">
-            <p className="font-tech font-black text-sm md:text-xl text-green-500 uppercase tracking-tighter italic animate-pulse">
-              A OPORTUNIDADE AO SEU ALCANCE,<br />A MUDANÇA AGORA ESTÁ COM VOCÊ!
+          <div className="mb-5 sm:mb-6 md:mb-8 lg:mb-12">
+            <p className="font-tech font-black text-[10px] sm:text-xs md:text-sm lg:text-xl text-green-500 uppercase tracking-tighter italic animate-pulse leading-tight">
+              <span className="block sm:inline">A OPORTUNIDADE AO SEU ALCANCE,</span>
+              <span className="block sm:inline sm:ml-1">A MUDANÇA AGORA ESTÁ COM VOCÊ!</span>
             </p>
           </div>
 
-          <div className="flex justify-center gap-3 sm:gap-4 md:gap-6 mb-8 sm:mb-10 md:mb-12">
+          <div className="flex justify-center gap-2 sm:gap-3 md:gap-4 lg:gap-6 mb-6 sm:mb-8 md:mb-10 lg:mb-12">
             <div className="text-center">
-              <div className="font-tech text-2xl sm:text-3xl md:text-5xl font-black text-white italic">{timeLeft.minutes.toString().padStart(2, '0')}</div>
-              <div className="text-[9px] sm:text-[10px] md:text-[9px] text-gray-500 font-bold uppercase tracking-widest mt-1 md:mt-2">Minutos</div>
+              <div className="font-tech text-xl sm:text-2xl md:text-3xl lg:text-5xl font-black text-white italic leading-none">{timeLeft.minutes.toString().padStart(2, '0')}</div>
+              <div className="text-[8px] sm:text-[9px] md:text-[10px] lg:text-[9px] text-gray-500 font-bold uppercase tracking-widest mt-1 sm:mt-1.5 md:mt-2">Minutos</div>
             </div>
-            <div className="text-2xl sm:text-3xl md:text-4xl text-green-500 font-black">:</div>
+            <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-green-500 font-black leading-none">:</div>
             <div className="text-center">
-              <div className="font-tech text-2xl sm:text-3xl md:text-5xl font-black text-white italic">{timeLeft.seconds.toString().padStart(2, '0')}</div>
-              <div className="text-[9px] sm:text-[10px] md:text-[9px] text-gray-500 font-bold uppercase tracking-widest mt-1 md:mt-2">Segundos</div>
+              <div className="font-tech text-xl sm:text-2xl md:text-3xl lg:text-5xl font-black text-white italic leading-none">{timeLeft.seconds.toString().padStart(2, '0')}</div>
+              <div className="text-[8px] sm:text-[9px] md:text-[10px] lg:text-[9px] text-gray-500 font-bold uppercase tracking-widest mt-1 sm:mt-1.5 md:mt-2">Segundos</div>
             </div>
           </div>
 
-          <h3 className="text-gray-500 font-tech font-bold text-[9px] sm:text-[10px] md:text-[10px] uppercase tracking-[0.3em] sm:tracking-[0.4em] mb-3 sm:mb-4">OFERTA DE MATRÍCULA</h3>
-          <div className="flex flex-col items-center mb-8 sm:mb-10">
-            <div className="text-white text-base sm:text-lg md:text-2xl font-black line-through decoration-red-600 decoration-[1px] mb-2 md:mb-4">DE R$ 297,00</div>
-            <div className="font-tech text-4xl sm:text-5xl md:text-7xl font-black text-white tracking-tighter italic">R$ 97,00</div>
-            <div className="text-[9px] sm:text-[10px] md:text-[10px] text-green-500 font-bold uppercase tracking-widest mt-3 sm:mt-4 text-center px-2">PAGAMENTO ÚNICO – SEM MENSALIDADE</div>
+          <h3 className="text-gray-500 font-tech font-bold text-[9px] sm:text-[10px] md:text-[10px] uppercase tracking-[0.15em] sm:tracking-[0.2em] md:tracking-[0.3em] lg:tracking-[0.4em] mb-3 sm:mb-4 px-1">OFERTA DE MATRÍCULA</h3>
+          <div className="flex flex-col items-center mb-6 sm:mb-8 md:mb-10 pt-1 sm:pt-2">
+            <div className="text-white text-xs sm:text-sm md:text-base lg:text-lg xl:text-2xl font-black line-through decoration-red-600 decoration-[1px] mb-1.5 sm:mb-2 md:mb-3 lg:mb-4">DE R$ 297,00</div>
+            <div className="font-tech text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-7xl font-black text-white tracking-tighter italic leading-none px-1">R$ 97,00</div>
+            <div className="text-[7px] sm:text-[8px] md:text-[9px] lg:text-[10px] text-green-500 font-bold uppercase tracking-widest mt-2 sm:mt-2.5 md:mt-3 lg:mt-4 text-center px-2 leading-tight">
+              <span className="block sm:inline">PAGAMENTO ÚNICO</span>
+              <span className="block sm:inline sm:ml-1">– SEM MENSALIDADE</span>
+            </div>
           </div>
 
           <button 
@@ -919,7 +927,7 @@ const SocialLinks: React.FC = () => {
 
 const Footer: React.FC = () => {
   return (
-    <footer className="py-16 md:py-20 bg-black text-center border-t border-white/5">
+    <footer className="py-16 md:py-20 pb-24 sm:pb-28 md:pb-32 bg-black text-center border-t border-white/5 relative z-10">
       <div className="container mx-auto px-4">
         <p className="text-[9px] md:text-[11px] text-gray-500 font-bold uppercase tracking-[0.2em] max-w-4xl mx-auto leading-loose px-4">
           Copyright 2025 – INSTITUTO PROFISSIONALIZE MÁXXIMA ® CNPJ 43.774.046/0001-70 Todos os direitos reservados.
@@ -932,6 +940,7 @@ const Footer: React.FC = () => {
 const FloatingCTAButton: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isInCheckout, setIsInCheckout] = useState(false);
+  const [isNearFooter, setIsNearFooter] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -953,6 +962,19 @@ const FloatingCTAButton: React.FC = () => {
         const isOverCheckout = buttonBottom >= checkoutTop && viewportTop <= checkoutBottom;
         setIsInCheckout(isOverCheckout);
       }
+
+      // Verificar se está próximo ao rodapé
+      const footer = document.querySelector('footer');
+      if (footer) {
+        const footerTop = footer.offsetTop;
+        const viewportBottom = scrollPos + window.innerHeight;
+        const buttonHeight = 60; // Altura aproximada do botão
+        const threshold = 150; // Distância para ocultar antes de chegar no rodapé
+        
+        // Ocultar quando estiver próximo ao rodapé (considerando a altura do botão)
+        const isNear = viewportBottom + buttonHeight + threshold >= footerTop;
+        setIsNearFooter(isNear);
+      }
     };
 
     // Verificação inicial
@@ -967,8 +989,8 @@ const FloatingCTAButton: React.FC = () => {
     };
   }, []);
 
-  // Não mostrar se não estiver visível ou se estiver na seção de checkout
-  if (!isVisible || isInCheckout) return null;
+  // Não mostrar se não estiver visível, se estiver na seção de checkout ou próximo ao rodapé
+  if (!isVisible || isInCheckout || isNearFooter) return null;
 
   return (
     <div className="fixed bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-[100] w-full max-w-[95%] sm:max-w-[90%] md:max-w-md pointer-events-none transition-all duration-500 animate-in fade-in slide-in-from-bottom-10">
@@ -990,7 +1012,7 @@ const FloatingCTAButton: React.FC = () => {
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-black text-white selection:bg-green-500 selection:text-black">
+    <div className="min-h-screen bg-black text-white selection:bg-green-500 selection:text-black overflow-x-hidden">
       <style>
         {`
           @keyframes neon-glow-button {
