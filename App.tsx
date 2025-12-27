@@ -31,9 +31,14 @@ const HOTMART_LINK = "https://pay.hotmart.com/L89949252N?off=dbjs7anu&checkoutMo
 
 // --- Helper Functions ---
 const scrollToCheckout = () => {
-  // Disparar evento do Facebook Pixel
+  // IMPORTANTE: InitiateCheckout é disparado apenas quando o usuário CLICA no botão
+  // Isso NÃO significa que ele comprou - apenas que iniciou o processo de checkout
+  // A conversão real (Purchase) deve ser disparada pela Hotmart após pagamento confirmado
   if (typeof window !== 'undefined' && (window as any).fbq) {
-    (window as any).fbq('track', 'InitiateCheckout');
+    (window as any).fbq('track', 'InitiateCheckout', {
+      content_name: 'Curso Manutenção de Celular',
+      content_category: 'Education'
+    });
   }
   
   const element = document.getElementById('checkout-section');
@@ -700,15 +705,18 @@ const CheckoutSection: React.FC = () => {
     window.addEventListener('resize', updateTranslateY);
 
     // Rastrear visualização da seção de checkout
+    // IMPORTANTE: ViewContent apenas indica que o usuário VISUALIZOU o checkout
+    // NÃO significa que ele comprou - isso deve ser disparado pela Hotmart após pagamento
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting && typeof window !== 'undefined' && (window as any).fbq) {
             (window as any).fbq('track', 'ViewContent', {
               content_name: 'Checkout - Curso Manutenção de Celular',
-              content_category: 'Checkout'
+              content_category: 'Checkout',
+              content_type: 'product'
             });
-            observer.disconnect(); // Dispara apenas uma vez
+            observer.disconnect(); // Dispara apenas uma vez para evitar duplicação
           }
         });
       },
