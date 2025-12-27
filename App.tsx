@@ -684,7 +684,21 @@ const Pricing: React.FC = () => {
 };
 
 const CheckoutSection: React.FC = () => {
+  const [translateY, setTranslateY] = useState(-340);
+
   useEffect(() => {
+    // Ajustar translateY baseado no tamanho da tela
+    const updateTranslateY = () => {
+      if (window.innerWidth < 640) {
+        setTranslateY(-320); // Mobile
+      } else {
+        setTranslateY(-340); // Desktop
+      }
+    };
+
+    updateTranslateY();
+    window.addEventListener('resize', updateTranslateY);
+
     // Rastrear visualização da seção de checkout
     const observer = new IntersectionObserver(
       (entries) => {
@@ -728,6 +742,7 @@ const CheckoutSection: React.FC = () => {
       
       iframe.addEventListener('load', handleLoad);
       return () => {
+        window.removeEventListener('resize', updateTranslateY);
         if (element) {
           observer.unobserve(element);
         }
@@ -736,6 +751,7 @@ const CheckoutSection: React.FC = () => {
     }
 
     return () => {
+      window.removeEventListener('resize', updateTranslateY);
       if (element) {
         observer.unobserve(element);
       }
@@ -743,8 +759,8 @@ const CheckoutSection: React.FC = () => {
   }, []);
 
   return (
-    <section id="checkout-section" className="py-20 md:py-24 bg-black">
-      <div className="container mx-auto px-4 text-center">
+    <section id="checkout-section" className="py-12 sm:py-16 md:py-20 lg:py-24 bg-black">
+      <div className="container mx-auto px-3 sm:px-4 text-center">
         <div className="flex items-center justify-center gap-2 sm:gap-3 bg-gradient-to-r from-green-600/20 to-green-500/20 border border-green-500/30 px-4 sm:px-6 md:px-8 py-3 sm:py-4 md:py-5 rounded-full backdrop-blur-sm mb-6 sm:mb-8 md:mb-10 max-w-2xl mx-auto">
           <Users className="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 text-green-500 flex-shrink-0" />
           <div className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2">
@@ -767,7 +783,7 @@ const CheckoutSection: React.FC = () => {
           </h2>
           <ArrowDown className="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 text-green-500 animate-bounce flex-shrink-0" />
         </div>
-        <div className="max-w-4xl mx-auto rounded-2xl md:rounded-[3rem] border border-white/5 overflow-hidden bg-[#0a0f12] shadow-2xl relative" style={{ height: 'clamp(600px, 90vh, 900px)', overflow: 'hidden' }}>
+        <div className="max-w-4xl mx-auto rounded-xl sm:rounded-2xl md:rounded-[3rem] border border-white/5 overflow-hidden bg-[#0a0f12] shadow-2xl relative" style={{ height: 'clamp(500px, 80vh, 900px)', overflow: 'hidden', minHeight: '500px' }}>
           <div 
             className="absolute inset-0"
             style={{ 
@@ -775,20 +791,21 @@ const CheckoutSection: React.FC = () => {
               height: '100%'
             }}
           >
-            <iframe 
-              src={HOTMART_LINK} 
+          <iframe 
+            src={HOTMART_LINK} 
               className="w-full border-0"
               style={{ 
                 height: '1400px',
                 width: '100%',
-                transform: 'translateY(-380px)',
+                transform: `translateY(${translateY}px)`,
                 pointerEvents: 'auto',
                 border: 'none',
                 display: 'block'
               }}
-              title="Checkout Hotmart"
+            title="Checkout Hotmart"
               loading="lazy"
-            ></iframe>
+              allow="payment"
+          ></iframe>
           </div>
         </div>
       </div>
