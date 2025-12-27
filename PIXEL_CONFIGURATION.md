@@ -74,3 +74,4 @@ Para verificar se está correto:
 - ❌ Purchase: Deve ser disparado pela Hotmart (não pelo nosso código)
 - ❌ CompleteRegistration: Deve ser disparado pela Hotmart (não pelo nosso código)
 
+
