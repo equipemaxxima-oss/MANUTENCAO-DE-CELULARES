@@ -41,6 +41,11 @@ const PixelLoader: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         (window as any).fbq('track', 'PageView');
       }
     }, 100);
+
+    // Configurar Meta API Key se disponível
+    if (typeof window !== 'undefined' && !(window as any).META_API_KEY) {
+      (window as any).META_API_KEY = 'EAAoC1bVk0HUBQSZCNbKj90evIXZAo3eTVLK4UkliGEZCZAu3xbwJpswUnIC0f7C7jDZBaM7a20trqLdcirP3ZCn4A3sfZA72ZBJZAuDnHRfWVR1Qvcgyr9AJeT0MBBVh04aG89ccnpdlfO7FxkbmNZALQXmMistPAPqjTZBZB7aLJfbz3kgI1lsYVGvLWTW73rGGmAZDZD';
+    }
   }, []);
 
   return <>{children}</>;

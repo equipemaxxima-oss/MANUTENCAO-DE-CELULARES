@@ -684,15 +684,15 @@ const Pricing: React.FC = () => {
 };
 
 const CheckoutSection: React.FC = () => {
-  const [translateY, setTranslateY] = useState(-340);
+  const [translateY, setTranslateY] = useState(-300);
 
   useEffect(() => {
     // Ajustar translateY baseado no tamanho da tela
     const updateTranslateY = () => {
       if (window.innerWidth < 640) {
-        setTranslateY(-320); // Mobile
+        setTranslateY(-280); // Mobile
       } else {
-        setTranslateY(-340); // Desktop
+        setTranslateY(-300); // Desktop
       }
     };
 
