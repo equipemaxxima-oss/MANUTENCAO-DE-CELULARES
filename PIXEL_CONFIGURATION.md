@@ -75,3 +75,4 @@ Para verificar se está correto:
 - ❌ CompleteRegistration: Deve ser disparado pela Hotmart (não pelo nosso código)
 
 
+
